@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import LogOutButton from '../LogOutButton/LogOutButton';
+import LogOutButton from '../../Auth/LogOutButton/LogOutButton';
 import './Nav.css';
 import { useSelector } from 'react-redux';
 
@@ -30,6 +30,9 @@ function Nav() {
 
             <Link className="navLink" to="/info">
               Info Page
+            </Link>
+            <Link className='navLink' to='/ingredients'>
+              Ingredients
             </Link>
 
             <LogOutButton className="navLink" />

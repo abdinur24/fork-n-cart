@@ -23,6 +23,8 @@ import RecipeListPage from '../Pages/RecipeListPage/RecipeListPage';
 import AddRecipePage from '../Pages/AddRecipePage/AddRecipePage';
 import AddRecipeIngredients from '../Pages/AddRecipePage/AddRecipeIngredients';
 import IngredientsPage from '../Pages/IngredientsPage/IngredientsPage';
+import ReviewRecipe from '../Pages/ReviewRecipe/ReviewRecipe';
+import PricingPage from '../Pages/PricingPage/PricingPage';
 
 import './App.css';
 
@@ -85,6 +87,12 @@ function App() {
           >
             <AddRecipePage/>
           </ProtectedRoute>
+          <ProtectedRoute
+            exact
+            path='/reviewRecipe'
+          >
+            <ReviewRecipe/>
+          </ProtectedRoute>
           {/* <ProtectedRoute
             exact
             path='/addrecipe2'
@@ -96,6 +104,12 @@ function App() {
             path="/ingredients"
           >
             <IngredientsPage/>
+          </ProtectedRoute>
+          <ProtectedRoute
+            exact
+            path="/pricing"
+          >
+            <PricingPage/>
           </ProtectedRoute>
 
           <Route

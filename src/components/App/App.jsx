@@ -19,7 +19,9 @@ import InfoPage from '../Pages/InfoPage/InfoPage';
 import LandingPage from '../Pages/LandingPage/LandingPage';
 import LoginPage from '../Auth/LoginPage/LoginPage';
 import RegisterPage from '../Auth/RegisterPage/RegisterPage';
+import RecipeListPage from '../Pages/RecipeListPage/RecipeListPage';
 import AddRecipePage from '../Pages/AddRecipePage/AddRecipePage';
+import AddRecipeIngredients from '../Pages/AddRecipePage/AddRecipeIngredients';
 import IngredientsPage from '../Pages/IngredientsPage/IngredientsPage';
 
 import './App.css';
@@ -72,10 +74,23 @@ function App() {
 
           <ProtectedRoute
             exact
-            path='/recipe'
+            path='/recipelist'
+          >
+            <RecipeListPage/>
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            exact
+            path='/addrecipe'
           >
             <AddRecipePage/>
           </ProtectedRoute>
+          {/* <ProtectedRoute
+            exact
+            path='/addrecipe2'
+          >
+            <AddRecipeIngredients/>
+          </ProtectedRoute> */}
           <ProtectedRoute
             exact
             path="/ingredients"

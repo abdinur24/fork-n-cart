@@ -37,10 +37,7 @@ function RecipeListPage() {
             })}
             </div>
             <br/>
-            <button onClick={() => {
-            history.push('/addrecipe');
-            }}
-            >
+            <button onClick={() => {history.push('/addrecipe')}}>
                 Add New Recipe
             </button>
             

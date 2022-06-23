@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import errors from './errors.reducer';
 import user from './user.reducer';
 import recipe from './recipe.reducer'
+import newRecipeReducer from './new_recipe.reducer';
 import ingredient from './ingredients.reducer'
 import recipe_ingredients from './recipe_ingredients.reducer';
 
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   errors, // contains registrationMessage and loginMessage
   user, // will have an id and username if someone is logged in
   recipe,
+  newRecipeReducer,
   recipe_ingredients,
   ingredient,
 });

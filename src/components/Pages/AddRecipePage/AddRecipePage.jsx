@@ -12,12 +12,12 @@ function AddRecipePage() {
     const [displayAmount, setDisplayAmount] = useState('');
 
     const store = useSelector(store => store.ingredient);
-
+    console.log('this is ingredients store', store)
     const dispatch = useDispatch();
     const sumbitHandler = () => {
         dispatch({
             type: 'SET_NEWRECIPE',
-            payload: {
+            payload: [{
                 name: recipeName,
                 description: recipeDescription,
                 instructions: recipeInsructions,
@@ -29,7 +29,7 @@ function AddRecipePage() {
                         display_amount:displayAmount,
                     }
                 ]
-            }
+            }]
         })
         history.push('/reviewRecipe')
     }

@@ -19,7 +19,7 @@ function ReviewRecipe() {
         dispatch({
             type: 'CLEAR_RECIPEINGREIDNTS'
         })
-        setTimeout(() => history.push('/recipelist'), 3000)
+        history.push('/recipelist')
     }
     return (
         <div>
@@ -32,7 +32,7 @@ function ReviewRecipe() {
                         <h4>{recipe.description}</h4>
                         <p>{recipe.instructions}</p>
                         {recipe_ingredients.map(r_ingredients => {
-                        console.log('this is new added ingredient', store);
+                        console.log('this is new added ingredient', recipe_ingredients);
                             return(
                                 <p>{r_ingredients.ingredientName}</p>
                             )

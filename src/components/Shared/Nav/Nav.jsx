@@ -37,6 +37,9 @@ function Nav() {
             <Link className='navLink' to='/recipelist'>
               Your Recipes
             </Link>
+            <Link className='navLink' to='/cart'>
+              Cart
+            </Link>
 
             <LogOutButton className="navLink" />
           </>

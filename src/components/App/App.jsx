@@ -25,6 +25,7 @@ import AddRecipeIngredients from '../Pages/AddRecipePage/AddRecipeIngredients';
 import IngredientsPage from '../Pages/IngredientsPage/IngredientsPage';
 import ReviewRecipe from '../Pages/ReviewRecipe/ReviewRecipe';
 import PricingPage from '../Pages/PricingPage/PricingPage';
+import CartPage from '../Pages/CartPage/CartPage';
 
 import './App.css';
 
@@ -110,6 +111,12 @@ function App() {
             path="/pricing"
           >
             <PricingPage/>
+          </ProtectedRoute>
+          <ProtectedRoute
+            exact
+            path="/cart"
+          >
+            <CartPage/>
           </ProtectedRoute>
 
           <Route

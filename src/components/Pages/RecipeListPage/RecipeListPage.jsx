@@ -19,6 +19,7 @@ function RecipeListPage() {
             <h1>Your Recipes</h1>
             <div>
             {store.map(recipe => {
+                 console.log('THIS IS RECIPE STORE', store);
                 return (
                     <div className='recipe' key={recipe.id} >  
                         <h3>{recipe.name}</h3>
@@ -33,8 +34,8 @@ function RecipeListPage() {
                             DELETE
                         </button>
                     </div>
-                )
-            })}
+                 )
+            })} 
             </div>
             <br/>
             <button onClick={() => {history.push('/addrecipe')}}>

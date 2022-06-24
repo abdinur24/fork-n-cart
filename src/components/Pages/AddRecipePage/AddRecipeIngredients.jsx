@@ -24,6 +24,16 @@ function AddRecipeIngredients() {
                     </select>
                 )
             })}
+                                <br/>
+                    Amount: <input placeholder='Recipe Amount' value={recipeAmount} onChange={(e) => setRecipeAmount(e.target.value)} />
+                    Unit: <select value={unit}>
+                            <option value={c}>Cups</option>
+                            <option value={oz}>Ounces</option>
+                            <option value={tbsp}>Tablespoon</option>
+                            <option value={tsp}>Teaspoon</option>
+                        </select>
+                    <br/>
+                    <button onClick={() => dispatch({type:'SET_RECIPEINGREDIENTS'})}>Sumbit</button>
             </div>
         </div>
     )

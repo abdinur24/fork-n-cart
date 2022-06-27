@@ -25,10 +25,12 @@ import AddRecipeIngredients from '../Pages/AddRecipePage/AddRecipeIngredients';
 import IngredientsPage from '../Pages/IngredientsPage/IngredientsPage';
 import ReviewRecipe from '../Pages/ReviewRecipe/ReviewRecipe';
 import PricingPage from '../Pages/PricingPage/PricingPage';
-import EditRecipe from '../Pages/EditRecipe/EditRecipe';
+import ViewRecipe from '../Pages/ViewRecipe/ViewRecipe';
 import CartPage from '../Pages/CartPage/CartPage';
+import EditRecipe from '../Pages/EditRecipe/EditRecipe'
 
 import './App.css';
+
 
 function App() {
   const dispatch = useDispatch();
@@ -121,9 +123,15 @@ function App() {
           </ProtectedRoute>
           <ProtectedRoute
             exact
-            path="/edit/:recipeId"
+            path="/edit"
           >
             <EditRecipe/>
+          </ProtectedRoute>
+          <ProtectedRoute
+            exact
+            path="/:recipeId"
+          >
+            <ViewRecipe/>
           </ProtectedRoute>
 
           <Route

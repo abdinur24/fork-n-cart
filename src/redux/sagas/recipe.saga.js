@@ -21,7 +21,8 @@ function* addRecipe(action){
 
 function* editRecipe(action){
     try{
-        yield axios.delete(`/api/recipe/${action.payload.id}`, action.payload);
+        console.log('IN UPDATE RECIPE', action.payload);
+        yield axios.put(`/api/recipe/${action.payload.id}`, action.payload);
         yield put({type: 'GET_RECIPE'});
     }catch(error){
         console.log('ERROR IN UPDATING RECIPE', error);

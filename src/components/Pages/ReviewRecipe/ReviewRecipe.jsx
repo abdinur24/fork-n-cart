@@ -2,19 +2,19 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useEffect } from 'react';
 function ReviewRecipe() {
-    const recipe = useSelector(store => store.recipe)
+
+    const newRecipe = useSelector(store => store.newRecipeReducer);
+    console.log('This is newRecipeReducer',newRecipe)
 
     const ingredients = useSelector(store => store.ingredient);
-
     const recipe_ingredients = useSelector(store => store.recipe_ingredients);
 
-    console.log('This is new recipe', recipe)
     const dispatch = useDispatch();
     const history = useHistory();
     const addHandler = () => {
         dispatch({
             type: 'ADD_RECIPE',
-            payload: recipe
+            payload: newRecipe
         })
         dispatch({
             type: 'CLEAR_RECIPEINGREIDNTS'
@@ -27,10 +27,9 @@ function ReviewRecipe() {
             {/* {store.map(recipe => {
                 return ( */}
             <div>
-                {console.log('This is new recipe', recipe)}
-                <h1>Name: {recipe.name}</h1>
-                <p>Instructions: {recipe.instructions}</p>
-                <h4>Description: {recipe.description}</h4>
+                <h1>Name: {newRecipe.name}</h1>
+                <p>Instructions: {newRecipe.instructions}</p>
+                <h4>Description: {newRecipe.description}</h4>
                 <h4>Ingredients:</h4>
                 {recipe_ingredients.map(r_ingredients => {
                     console.log('this is new added ingredient', recipe_ingredients);
@@ -38,7 +37,7 @@ function ReviewRecipe() {
                     }}
                     return (
                         <div>
-                            <p>{r_ingredients.ingredientName}: {r_ingredients.recipeAmount}</p>
+                            <p>{r_ingredients.ingredientName}: {r_ingredients.display_amount}</p>
                             
                         </div>
                     )

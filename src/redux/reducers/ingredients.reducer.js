@@ -1,5 +1,3 @@
-
-
 const ingredientReducer =(state=[], action)=>{
     switch(action.type){
         case 'SET_INGREDIENTS':

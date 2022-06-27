@@ -9,6 +9,12 @@ function RecipeListPage() {
     console.log('THIS IS RECIPE STORE', store);
 
     const dispatch = useDispatch();
+    const cartHandler = (recipe) =>{
+        dispatch({
+            type: 'SET_CART',
+            payload: recipe,
+        })
+    }
     useEffect(() => {
         dispatch({ type: 'GET_RECIPE' })
     }, [])
@@ -22,6 +28,7 @@ function RecipeListPage() {
                     return (
                         <div className='recipe' key={recipe.id} >
                             <h3>{recipe.name}</h3>
+                            <img src={recipe.image_url} onClick={() => history.push('/')}/>
                             <p>{recipe.description}</p>
                             <button onClick={() =>
                                 dispatch({
@@ -32,6 +39,7 @@ function RecipeListPage() {
                             >
                                 DELETE
                             </button>
+                            <button onClick={() => cartHandler(recipe)}>Add to Cart</button>
                         </div>
                     )
                 })}

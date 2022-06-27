@@ -76,8 +76,9 @@ function AddRecipePage() {
                 <form onSubmit={ingredientHandler}>
                     Ingredient: <select
                         placeholder='Ingredients'
+                        multiple
                         value={recipeIngredientId}
-                        onChange={e => setRecipeIngredientId(e.target.value)}
+                        onChange={(e) => setRecipeIngredientId(e.target.value)}
                     >
                         {ingredient.map(ingredients => (
                             <option value={ingredients.id}>{ingredients.name}</option>

@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import {useEffect} from 'react';
+import { useEffect } from 'react';
 function ReviewRecipe() {
     const recipe = useSelector(store => store.recipe)
 
@@ -19,25 +19,28 @@ function ReviewRecipe() {
         dispatch({
             type: 'CLEAR_RECIPEINGREIDNTS'
         })
-        history.push('/recipelist')
+        setTimeout(() => history.push('/recipelist'), 1000)
     }
     return (
         <div>
             <h1>Your New Recipe</h1>
             {/* {store.map(recipe => {
                 return ( */}
-                    <div>
-                        {console.log('This is new recipe',recipe)}
-                        <h1>{recipe.name}</h1>
-                        <h4>{recipe.description}</h4>
-                        <p>{recipe.instructions}</p>
-                        {recipe_ingredients.map(r_ingredients => {
-                        console.log('this is new added ingredient', recipe_ingredients);
-                            return(
-                                <p>{r_ingredients.ingredientName}</p>
-                            )
-                        })}
-                        {/* {recipe.recipe_ingredients.map(recipe_ingredients => {
+            <div>
+                {console.log('This is new recipe', recipe)}
+                <h1>Name: {recipe.name}</h1>
+                <p>Instructions: {recipe.instructions}</p>
+                <h4>Description: {recipe.description}</h4>
+                {recipe_ingredients.map(r_ingredients => {
+                    console.log('this is new added ingredient', recipe_ingredients);
+                    return (
+                        <div>
+                            <p>Ingredients</p>
+                            <p>{r_ingredients.ingredientName}</p>
+                        </div>
+                    )
+                })}
+                {/* {recipe.recipe_ingredients.map(recipe_ingredients => {
                             console.log('This is recipe ingredients', recipe_ingredients)
                             let item = ingredients.find(item => item.id === Number(recipe_ingredients.ingredients_id))
                             console.log(item);
@@ -53,8 +56,8 @@ function ReviewRecipe() {
                             // })
 
                         })} */}
-                    </div>
-                {/* )
+            </div>
+            {/* )
             })}  */}
             <button onClick={() => addHandler()}>Add</button>
 

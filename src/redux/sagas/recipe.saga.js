@@ -19,6 +19,15 @@ function* addRecipe(action){
     }
 }
 
+function* editRecipe(action){
+    try{
+        yield axios.delete(`/api/recipe/${action.payload.id}`, action.payload);
+        yield put({type: 'GET_RECIPE'});
+    }catch(error){
+        console.log('ERROR IN UPDATING RECIPE', error);
+    }
+}
+
 function* deleteRecipe(action){
     try{
         yield axios.delete(`/api/recipe/${action.payload}`);
@@ -31,6 +40,7 @@ function* deleteRecipe(action){
 function* recipeSaga(){
     yield takeLatest('GET_RECIPE', getRecipe);
     yield takeLatest('ADD_RECIPE', addRecipe);
+    yield takeLatest('EDIT_RECIPE', editRecipe);
     yield takeLatest('DELETE_RECIPE', deleteRecipe);
 }
 

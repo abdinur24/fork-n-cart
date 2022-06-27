@@ -10,16 +10,15 @@ function AddRecipePage() {
     const [recipeIngredientId, setRecipeIngredientId] = useState('');
     const [recipeAmount, setRecipeAmount] = useState('');
     const [displayAmount, setDisplayAmount] = useState('');
-    const [unit, setUnit] = useState();
-    const [c, setC] = useState();
-    const [oz, setOz] = useState();
-    const [tbsp, setTbsp] = useState();
-    const [tsp, setTsp] = useState();
+
+    
+
 
     const ingredient = useSelector(store => store.ingredient);
     console.log('this is ingredients store', ingredient);
 
     const store = useSelector(store => store.recipe_ingredients);
+    const recipe_ingredients = useSelector(store => store.recipe_ingredients);
 
     const dispatch = useDispatch();
     const submitHandler = () => {
@@ -76,7 +75,7 @@ function AddRecipePage() {
                 <form onSubmit={ingredientHandler}>
                     Ingredient: <select
                         placeholder='Ingredients'
-                        multiple
+                        // multiple
                         value={recipeIngredientId}
                         onChange={(e) => setRecipeIngredientId(e.target.value)}
                     >

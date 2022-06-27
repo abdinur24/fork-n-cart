@@ -31,12 +31,15 @@ function ReviewRecipe() {
                 <h1>Name: {recipe.name}</h1>
                 <p>Instructions: {recipe.instructions}</p>
                 <h4>Description: {recipe.description}</h4>
+                <h4>Ingredients:</h4>
                 {recipe_ingredients.map(r_ingredients => {
                     console.log('this is new added ingredient', recipe_ingredients);
+                    {if(r_ingredients.recipeIngredientId){
+                    }}
                     return (
                         <div>
-                            <p>Ingredients</p>
-                            <p>{r_ingredients.ingredientName}</p>
+                            <p>{r_ingredients.ingredientName}: {r_ingredients.recipeAmount}</p>
+                            
                         </div>
                     )
                 })}

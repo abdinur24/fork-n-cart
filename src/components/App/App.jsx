@@ -25,6 +25,7 @@ import AddRecipeIngredients from '../Pages/AddRecipePage/AddRecipeIngredients';
 import IngredientsPage from '../Pages/IngredientsPage/IngredientsPage';
 import ReviewRecipe from '../Pages/ReviewRecipe/ReviewRecipe';
 import PricingPage from '../Pages/PricingPage/PricingPage';
+import EditRecipe from '../Pages/EditRecipe/EditRecipe';
 import CartPage from '../Pages/CartPage/CartPage';
 
 import './App.css';
@@ -117,6 +118,12 @@ function App() {
             path="/cart"
           >
             <CartPage/>
+          </ProtectedRoute>
+          <ProtectedRoute
+            exact
+            path="/edit/:recipeId"
+          >
+            <EditRecipe/>
           </ProtectedRoute>
 
           <Route

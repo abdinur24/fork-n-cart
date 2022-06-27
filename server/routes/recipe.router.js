@@ -90,7 +90,9 @@ router.put('/:id', rejectUnauthenticated, async (req,res) =>{
         console.log('ADDING NEW recipe for user', req.user.username);
         console.log('NEW RECIPE ID IS', result.rows[0].id);
         const createdRecipeId = result.rows[0].id;
+        console.log('req.body', req.body.recipe_ingredients)
         for (let ingredient of req.body.recipe_ingredients) {
+            console.log('is this hitting?', ingredient)
             const recipeIngredientsQuery = `
              INSERT INTO "recipe_ingredients"("recipe_id", "ingredients_id", "recipe_amount", "display_amount")
             VALUES($1,$2,$3,$4);`

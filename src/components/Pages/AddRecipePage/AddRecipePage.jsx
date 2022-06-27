@@ -7,7 +7,7 @@ function AddRecipePage() {
     const [imageUrl, setImageUrl] = useState();
     const [recipeDescription, setRecipeDescription] = useState('');
     const [recipeInsructions, setRecipeInstructions] = useState('');
-    const [recipeIngredientId, setRecipeIngredientId] = useState('');
+    const [recipeIngredientId, setRecipeIngredientId] = useState(0);
     const [recipeAmount, setRecipeAmount] = useState('');
     const [displayAmount, setDisplayAmount] = useState('');
 

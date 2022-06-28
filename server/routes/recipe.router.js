@@ -61,26 +61,9 @@ router.post('/', rejectUnauthenticated, async (req, res) => {
         console.log('ERROR INSERTING NEW RECIPE', error);
         res.sendStatus(500);
     }
-    // .then(result =>{
-    // console.log('ADDING NEW recipe for user',req.user.username);
-    // console.log('NEW RECIPE ID IS', result.rows[0].id);
-    // const createdRecipeId = result.rows[0].id;
-    // const recipeIngredientsQuery = `
-    // INSERT INTO "recipe_ingredients"("recipe_id", "ingredients_id", "recipe_amount", "display_amount")
-    // VALUES($1,$2,$3,$4,$5);`
-    // pool.query(recipeIngredientsQuery,[createdRecipeId, req.body.recipe_amount, req.body.display_amount])
-    //     .then(result =>{      
-    //         res.sendStatus(201);
-    //     }).catch(err =>{
-    //         console.log('ERROR ADDING RECIPE INGREDIENTS', err);
-    //         res.sendStatus(500);
-    //     })
-    // }).catch(error =>{
-    //     console.log('ERROR INSERTING NEW RECIPE', error);
-    //     res.sendStatus(500);
-    // })
 });
 
+// UPDATE RECIPE ROUTER
 router.put('/:id', rejectUnauthenticated, async (req,res) =>{
     console.log('user id=', req.user.id, 'recipe id=', req.params.id);
     try {
@@ -90,35 +73,32 @@ router.put('/:id', rejectUnauthenticated, async (req,res) =>{
                     "instructions"=$3, 
                     "user_id"=$4, 
                     "image_url"=$5
-                    WHERE "id"=${req.params.id}
+                    WHERE "id"=$6
                     RETURNING "id";`
-        const result = await pool.query(query, [req.body.name, req.body.description, req.body.instructions, req.user.id, req.body.image_url])
+        const result = await pool.query(query, [req.body.name, req.body.description, req.body.instructions, req.user.id, req.body.image_url, req.params.id])
         console.log('ADDING NEW recipe for user', req.user.username);
         console.log('NEW RECIPE ID IS', result.rows[0].id);
         const createdRecipeId = result.rows[0].id;
-        console.log('req.body', req.body.recipe_ingredients)
+        console.log('recipe ingredients id is',req.body.recipe_ingredients.id);
+        const deleteQuery = `DELETE FROM "recipe_ingredients" WHERE id=$1;`
+        const result3 = await pool.query(deleteQuery,[req.body.recipe_ingredients.id])
+        console.log('req.body', req.body.recipe_ingredients);
         console.log('Finding id', req.params.id);
         for (let ingredient of req.body.recipe_ingredients) {
-            
             const recipeIngredientsQuery = `
-             UPDATE "recipe_ingredients" SET 
-             "recipe_id"=$1, 
-             "ingredients_id"=$2, 
-             "recipe_amount"=$3, 
-             "display_amount"=$4 
-             WHERE "id"=${req.params.id}
-            ;`
+            INSERT INTO "recipe_ingredients"("recipe_id", "ingredients_id", "recipe_amount", "display_amount")
+            VALUES($1,$2,$3,$4);`
             const result2 = await pool.query(recipeIngredientsQuery, [createdRecipeId, ingredient.ingredients_id, ingredient.recipe_amount, ingredient.display_amount])
         }
         res.sendStatus(201);
 
     } catch (error) {
-        console.log('ERROR INSERTING NEW RECIPE', error);
+        console.log('ERROR UPDATING RECIPE', error);
         res.sendStatus(500);
     }
 })
 
-
+// DELETE RECIPE ROUTER
 router.delete('/:id', rejectUnauthenticated, (req, res) => {
     console.log('user id=', req.user.id, 'recipe id=', req.params.id);
     const query = `DELETE FROM "recipe" WHERE id=$1 AND user_id=$2;`

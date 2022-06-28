@@ -7,8 +7,8 @@ function ViewRecipe() {
     const recipe_ingredients = useSelector(store => store.recipe_ingredients);
     const ingredients = useSelector(store => store.ingredient)
     const store = useSelector(store => store.recipe)
-    const history = useHistory();
     const dispatch = useDispatch();
+    const history = useHistory();
 
 
     let params = useParams();
@@ -47,15 +47,14 @@ function ViewRecipe() {
         })
     }
 
-
-
-
-
     const editForms = () => {
         setIsEditable(true)
     }
 
     const saveForms = () => {
+        dispatch({
+            type: 'DELETE_RECIPEINGREIDENTS',
+        })
         dispatch({
             type: 'UPDATE_RECIPE',
             payload: {
@@ -65,8 +64,10 @@ function ViewRecipe() {
                 instructions: recipeInsructions,
                 image_url: imageUrl,
                 recipe_ingredients,
-               
             }
+        })
+        dispatch({
+            type: 'CLEAR_RECIPEINGREIDNTS'
         })
         setIsEditable(false)
     }
@@ -74,6 +75,13 @@ function ViewRecipe() {
     useEffect(() => {
         dispatch({ type: 'GET_RECIPE' })
     }, [])
+
+    useEffect(() => {
+        // Gives setRecipeIngredientId value if ingredients store is greater than zero
+        if (ingredients.length > 0) {
+            setRecipeIngredientId(recipeIngredientId)
+        }
+    }, [ingredients])
 
     return (
         <div>
@@ -87,35 +95,63 @@ function ViewRecipe() {
                 <h4>Ingredients:</h4>
                 {recipe.recipe_ingredients.map(item => {
                     return (
-                        <p>{item.name}: {item.display_amount}</p>
+                        <div key={item.id}>
+                            <p>{item.name}: {item.display_amount}</p>
+                            {/* {isIngEditable ?
+                                <div>
+                                    <select
+                                        // multiple
+                                        value={recipeIngredientId}
+                                        onChange={(e) => setRecipeIngredientId(e.target.value)}
+                                    >
+                                        {ingredients.map(ingredient => (
+                                            <option value={ingredient.id}>{ingredient.name}</option>
+                                        ))}
+                                    </select>
+                                    <input placeholder='Recipe Amount' value={recipeAmount} onChange={(e) => setRecipeAmount(e.target.value)} />
+                                    <input placeholder='Recipe Amount' value={displayAmount} onChange={(e) => setDisplayAmount(e.target.value)} />
+                                </div>
+                                : ''
+                            } */}
+                        </div>
                     )
                 })}
-                {/* <button onClick={(e) => editHandler()}>Edit Recipe</button> */}
             </div>
+            <br />
             <div>
 
                 {isEditable ?
                     <div>
                         <form>
-
-                            <input placeholder='Recipe Name' value={recipeName} onChange={(e) => setRecipeName(e.target.value)} />
+                            <label htmlFor='RecipeName'>Recipe Name</label>
                             <br />
-                            <input type="file" accept='image/*' value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} />
+                            <input name='RecipeName' placeholder='Recipe Name' value={recipeName} onChange={(e) => setRecipeName(e.target.value)} />
                             <br />
-                            <textarea rows='4' cols='20' placeholder='Description'
+                            <label htmlFor='recipeImage'>Image</label>
+                            <br />
+                            <input name='recipeImage' type="file" accept='image/*' value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} />
+                            <br />
+                            <label htmlFor='recipeDescription'>Description</label>
+                            <br />
+                            <textarea rows='4' cols='20' name='recipeDescription' placeholder='Description'
                                 value={recipeDescription} onChange={(e) => setRecipeDescription(e.target.value)}
                             >
                             </textarea>
 
                         </form>
                         <form onSubmit={ingredientHandler}>
+                            <textarea rows='4' cols='50' placeholder='Instructions'
+                                value={recipeInsructions} onChange={(e) => setRecipeInstructions(e.target.value)}
+                            >
+                            </textarea>
+                            <br/>
                             Ingredient: <select
                                 // multiple
                                 value={recipeIngredientId}
                                 onChange={(e) => setRecipeIngredientId(e.target.value)}
                             >
                                 {ingredients.map(ingredient => (
-                                    <option value={ingredient.id}>{ingredient.name}</option>
+                                    <option key={ingredient.id} value={ingredient.id}>{ingredient.name}</option>
                                 ))}
                             </select>
                             <br />
@@ -123,22 +159,23 @@ function ViewRecipe() {
                             Amount per cooking: <input placeholder='Recipe Amount' value={displayAmount} onChange={(e) => setDisplayAmount(e.target.value)} />
                             <button type='submit'>Add</button>
                             <br />
-                            <textarea rows='4' cols='50' placeholder='Instructions'
-                                value={recipeInsructions} onChange={(e) => setRecipeInstructions(e.target.value)}
-                            >
-                            </textarea>
                         </form>
-
+                        <br />
+                        {recipe_ingredients.map(r_ingredients => {
+                            return (
+                                <p key={r_ingredients.id}>{r_ingredients.ingredientName}</p>
+                            )
+                        })}
+                        <br />
                     </div>
                     : ''}
                 {isEditable ?
                     <button onClick={saveForms}>Save Recipe</button> :
                     <button onClick={editForms}>Edit recipe</button>
-
                 }
 
             </div>
-        </div>
+        </div >
     )
 }
 

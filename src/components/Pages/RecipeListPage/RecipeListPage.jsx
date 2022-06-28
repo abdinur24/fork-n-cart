@@ -16,7 +16,8 @@ function RecipeListPage() {
         })
     }
     useEffect(() => {
-        dispatch({ type: 'GET_RECIPE' })
+        dispatch({ type: 'GET_RECIPE',})
+        dispatch({ type: 'GET_INGREDIENTS',})
     }, [])
     const history = useHistory();
 

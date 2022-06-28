@@ -121,12 +121,12 @@ function App() {
           >
             <CartPage/>
           </ProtectedRoute>
-          <ProtectedRoute
+          {/* <ProtectedRoute
             exact
-            path="/edit"
+            path="/edit/:recipeId"
           >
             <EditRecipe/>
-          </ProtectedRoute>
+          </ProtectedRoute> */}
           <ProtectedRoute
             exact
             path="/:recipeId"

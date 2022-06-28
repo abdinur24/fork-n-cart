@@ -19,7 +19,7 @@ function* addRecipe(action){
     }
 }
 
-function* editRecipe(action){
+function* updateRecipe(action){
     try{
         console.log('IN UPDATE RECIPE', action.payload);
         yield axios.put(`/api/recipe/${action.payload.id}`, action.payload);
@@ -41,7 +41,7 @@ function* deleteRecipe(action){
 function* recipeSaga(){
     yield takeLatest('GET_RECIPE', getRecipe);
     yield takeLatest('ADD_RECIPE', addRecipe);
-    yield takeLatest('EDIT_RECIPE', editRecipe);
+    yield takeLatest('UPDATE_RECIPE', updateRecipe);
     yield takeLatest('DELETE_RECIPE', deleteRecipe);
 }
 

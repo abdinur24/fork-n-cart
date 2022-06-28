@@ -84,18 +84,30 @@ router.post('/', rejectUnauthenticated, async (req, res) => {
 router.put('/:id', rejectUnauthenticated, async (req,res) =>{
     console.log('user id=', req.user.id, 'recipe id=', req.params.id);
     try {
-        const query = `UPDATE INTO "recipe"("name","description", "instructions", "user_id", "image_url")
-                    VALUES($1, $2, $3, $4, $5) RETURNING "id";`
+        const query = `UPDATE "recipe" SET 
+                    "name"=$1,
+                    "description"=$2, 
+                    "instructions"=$3, 
+                    "user_id"=$4, 
+                    "image_url"=$5
+                    WHERE "id"=${req.params.id}
+                    RETURNING "id";`
         const result = await pool.query(query, [req.body.name, req.body.description, req.body.instructions, req.user.id, req.body.image_url])
         console.log('ADDING NEW recipe for user', req.user.username);
         console.log('NEW RECIPE ID IS', result.rows[0].id);
         const createdRecipeId = result.rows[0].id;
         console.log('req.body', req.body.recipe_ingredients)
+        console.log('Finding id', req.params.id);
         for (let ingredient of req.body.recipe_ingredients) {
-            console.log('is this hitting?', ingredient)
+            
             const recipeIngredientsQuery = `
-             INSERT INTO "recipe_ingredients"("recipe_id", "ingredients_id", "recipe_amount", "display_amount")
-            VALUES($1,$2,$3,$4);`
+             UPDATE "recipe_ingredients" SET 
+             "recipe_id"=$1, 
+             "ingredients_id"=$2, 
+             "recipe_amount"=$3, 
+             "display_amount"=$4 
+             WHERE "id"=${req.params.id}
+            ;`
             const result2 = await pool.query(recipeIngredientsQuery, [createdRecipeId, ingredient.ingredients_id, ingredient.recipe_amount, ingredient.display_amount])
         }
         res.sendStatus(201);

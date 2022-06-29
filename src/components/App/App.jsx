@@ -129,7 +129,7 @@ function App() {
           </ProtectedRoute> */}
           <ProtectedRoute
             exact
-            path="/:recipeId"
+            path="/recipe/:recipeId"
           >
             <ViewRecipe/>
           </ProtectedRoute>

@@ -14,6 +14,7 @@ function ViewRecipe() {
     let params = useParams();
     console.log(params)
     let recipeId = params.recipeId
+    console.log(recipeId)
     let recipe = store.find(recipe => recipe.id === Number(recipeId));
     console.log('Viewing this ', recipe);
 

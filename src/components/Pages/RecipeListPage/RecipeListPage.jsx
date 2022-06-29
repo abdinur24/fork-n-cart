@@ -28,7 +28,7 @@ function RecipeListPage() {
                 {store.map(recipe => {
                     return (
                         <div className='recipe' key={recipe.id} >
-                            <h3 onClick={() =>  history.push(`/${recipe.id}`)}>{recipe.name}</h3>
+                            <h3 onClick={() =>  history.push(`/recipe/${recipe.id}`)}>{recipe.name}</h3>
                             <img src={recipe.image_url} />
                             <p>{recipe.description}</p>
                             <button onClick={() =>

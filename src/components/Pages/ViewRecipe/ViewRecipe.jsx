@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
+import { useScript } from '../../../hooks/useScript';
 
 function ViewRecipe() {
 
@@ -18,6 +19,19 @@ function ViewRecipe() {
     let recipe = store.find(recipe => recipe.id === Number(recipeId));
     console.log('Viewing this ', recipe);
 
+    useEffect(() => {
+        dispatch({ type: 'GET_INGREDIENTS' })
+    }, [])
+
+    useEffect(() => {
+        // Gives setRecipeIngredientId value if ingredients store is greater than zero
+        if (ingredients.length > 0) {
+            setRecipeIngredientId(recipeIngredientId)
+        }
+        dispatch({ type: 'GET_RECIPE' })
+
+    }, [ingredients])
+
     const [isEditable, setIsEditable] = useState(false);
     const [recipeName, setRecipeName] = useState(recipe.name);
     const [imageUrl, setImageUrl] = useState(recipe.image_url);
@@ -34,6 +48,27 @@ function ViewRecipe() {
     //     history.push(`/edit/${recipe.id}`)
     //     setEdit(!false);
     // }
+
+    const openWidget = () => {
+        // Currently there is a bug with the Cloudinary <Widget /> component
+        // where the button defaults to a non type="button" which causes the form
+        // to submit when clicked. So for now just using the standard widget that
+        // is available on window.cloudinary
+        // See docs: https://cloudinary.com/documentation/upload_widget#look_and_feel_customization
+        !!window.cloudinary && window.cloudinary.createUploadWidget(
+            {
+                sources: ['local', 'url', 'camera'],
+                cloudName: process.env.REACT_APP_CLOUDINARY_NAME,
+                uploadPreset: process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET
+            },
+            (error, result) => {
+                if (!error && result && result.event === "success") {
+                    // When an upload is successful, save the uploaded URL to local state!
+                    setImageUrl(result.info.secure_url)
+                }
+            },
+        ).open();
+    }
 
 
     const ingredientHandler = () => {
@@ -73,16 +108,9 @@ function ViewRecipe() {
         setIsEditable(false)
     }
 
-    useEffect(() => {
-        dispatch({ type: 'GET_RECIPE' })
-    }, [])
 
-    useEffect(() => {
-        // Gives setRecipeIngredientId value if ingredients store is greater than zero
-        if (ingredients.length > 0) {
-            setRecipeIngredientId(recipeIngredientId)
-        }
-    }, [ingredients])
+
+
 
     return (
         <div>
@@ -130,8 +158,11 @@ function ViewRecipe() {
                             <br />
                             <label htmlFor='recipeImage'>Image</label>
                             <br />
-                            <input name='recipeImage' type="file" accept='image/*' value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} />
-                            <br />
+                            {/* <input name='recipeImage' type="file" accept='image/*' value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} /> */} 
+                            {/* {useScript('https://widget.cloudinary.com/v2.0/global/all.js')}
+
+                            File to upload: <button type="button" onClick={openWidget}>Pick File</button>
+                            <br /> */}
                             <label htmlFor='recipeDescription'>Description</label>
                             <br />
                             <textarea rows='4' cols='20' name='recipeDescription' placeholder='Description'
@@ -145,7 +176,7 @@ function ViewRecipe() {
                                 value={recipeInsructions} onChange={(e) => setRecipeInstructions(e.target.value)}
                             >
                             </textarea>
-                            <br/>
+                            <br />
                             Ingredient: <select
                                 // multiple
                                 value={recipeIngredientId}

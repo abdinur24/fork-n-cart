@@ -1,6 +1,20 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
+import { useScript } from '../../../hooks/useScript';
 import { useHistory } from 'react-router-dom'
+
+// Material UI
+import Grid from "@mui/material/Grid";
+import TextField from "@mui/material/TextField";
+import Typography from '@mui/material/Typography';
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import Box from "@mui/material/Box"
+import Button from "@mui/material/Button";
+
 function AddRecipePage() {
     const ingredients = useSelector(store => store.ingredient);
     console.log('this is ingredients store', ingredients);
@@ -17,7 +31,26 @@ function AddRecipePage() {
     const [displayAmount, setDisplayAmount] = useState('');
 
 
-
+    const openWidget = () => {
+        // Currently there is a bug with the Cloudinary <Widget /> component
+        // where the button defaults to a non type="button" which causes the form
+        // to submit when clicked. So for now just using the standard widget that
+        // is available on window.cloudinary
+        // See docs: https://cloudinary.com/documentation/upload_widget#look_and_feel_customization
+        !!window.cloudinary && window.cloudinary.createUploadWidget(
+            {
+                sources: ['local', 'url', 'camera'],
+                cloudName: process.env.REACT_APP_CLOUDINARY_NAME,
+                uploadPreset: process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET
+            },
+            (error, result) => {
+                if (!error && result && result.event === "success") {
+                    // When an upload is successful, save the uploaded URL to local state!
+                    setImageUrl(result.info.secure_url)
+                }
+            },
+        ).open();
+    }
 
 
 
@@ -63,55 +96,83 @@ function AddRecipePage() {
 
     return (
         <div>
+            <Grid container alignItems="center" justify="center" direction="column">
+                <Typography variant='h1'>
+                    New Recipe
+                </Typography>
+                <Grid item>
+                    <form>
+                        <TextField
 
-            <h1>New Recipe</h1>
+                            label='Name'
+                            placeholder='Recipe Name'
+                            value={recipeName}
+                            onChange={(e) => setRecipeName(e.target.value)}
+                        />
+                        <br />
+                        {useScript('https://widget.cloudinary.com/v2.0/global/all.js')}
 
-            <form>
-
-                <input placeholder='Recipe Name' value={recipeName} onChange={(e) => setRecipeName(e.target.value)} />
-                <br />
-                <input type="file" accept='image/*' value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} />
-                <br />
-                <textarea rows='4' cols='20' placeholder='Description'
-                    value={recipeDescription} onChange={(e) => setRecipeDescription(e.target.value)}
-                >
-                </textarea>
-
-            </form>
-
-            <div>
-
-                <form onSubmit={ingredientHandler}>
-                    Ingredient: <select
-                        // multiple
-                        value={recipeIngredientId}
-                        onChange={(e) => setRecipeIngredientId(e.target.value)}
-                    >
-                        {ingredients.map(ingredient => (
-                            <option value={ingredient.id}>{ingredient.name}</option>
-                        ))}
-                    </select>
-                    <br />
-                    Amount per grams: <input placeholder='Recipe Amount' value={recipeAmount} onChange={(e) => setRecipeAmount(e.target.value)} />
-                    Amount per cooking: <input placeholder='Recipe Amount' value={displayAmount} onChange={(e) => setDisplayAmount(e.target.value)} />
-                    <button type='submit'>Add</button>
-                </form>
-                <br />
+                        File to upload: <Button type="button" onClick={openWidget}>Pick File</Button>
+                        <br />
+                        {/* {file_url && <p>Uploaded Image URL: {file_url} <br /><img src={file_url} width={100} /></p>} */}
+                        <TextField
+                            label='Description'
+                            multiline
+                            rows={5}
+                            value={recipeDescription} onChange={(e) => setRecipeDescription(e.target.value)}
+                        />
+                    </form>
+                </Grid>
+                <Grid item>
+                    <form onSubmit={ingredientHandler}>
+                        <TextField
+                            id="outlined-select-currency"
+                            select
+                            label='Ingredients'
+                            // multiple
+                            value={recipeIngredientId}
+                            onChange={(e) => setRecipeIngredientId(e.target.value)}
+                        >
+                            {ingredients.map(ingredient => (
+                                <MenuItem value={ingredient.id}>{ingredient.name}</MenuItem>
+                            ))}
+                        </TextField>
+                        <br />
+                        <TextField
+                            type='number'
+                            label='Amount pre gram'
+                            placeholder='Recipe Amount'
+                            value={recipeAmount} onChange={(e) => setRecipeAmount(e.target.value)}
+                        />
+                        <TextField
+                            label='Amount per recipe'
+                            placeholder='Recipe Amount'
+                            value={displayAmount} onChange={(e) => setDisplayAmount(e.target.value)} />
+                        <button type='submit'>Add</button>
+                    </form>
+                </Grid>
                 {recipe_ingredients.map(r_ingredients => {
                     return (
-                        <p>{r_ingredients.ingredientName}</p>
+                        <Grid item>
+                            <Typography>
+                                {r_ingredients.ingredientName}: {r_ingredients.display_amount}
+                            </Typography>
+                        </Grid>
                     )
                 })}
-                <br />
-                <textarea rows='4' cols='50' placeholder='Instructions'
-                    value={recipeInsructions} onChange={(e) => setRecipeInstructions(e.target.value)}
-                >
-                </textarea>
-
-            </div>
-
-            <button onClick={() => submitHandler()}>Continue</button>
-        </div>
+                <Grid item>
+                    <TextField
+                        multiline
+                        rows={5}
+                        label='Instructions'
+                        value={recipeInsructions} onChange={(e) => setRecipeInstructions(e.target.value)}
+                    />
+                </Grid>
+                <Box>
+                    <Button onClick={() => submitHandler()}>Continue</Button>
+                </Box>
+            </Grid >
+        </div >
     )
 }
 

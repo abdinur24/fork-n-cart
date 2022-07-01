@@ -21,7 +21,7 @@ import { blueGrey } from '@mui/material/colors';
 
 const MuiButton = styled(Button)(({ theme }) => ({
     color: theme.palette.getContrastText(blueGrey[500]),
-    backgroundColor: blueGrey[900],
+    backgroundColor: blueGrey[700],
 }))
 
 function RecipeListPage() {
@@ -52,7 +52,7 @@ function RecipeListPage() {
                     return (
                         <Box sx={{ m: 2 }}>
                             <Grid item>
-                                <Card className='Container2' key={recipe.id} sx={{ maxWidth: 345 }}>
+                                <Card className='Container2' key={recipe.id} sx={{ maxWidth: 345 }} backgroundColor='black'>
                                     <CardActionArea onClick={() => history.push(`/recipe/${recipe.id}`)}>
                                         <CardHeader
                                             title={recipe.name}

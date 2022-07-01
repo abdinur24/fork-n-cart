@@ -3,6 +3,22 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { useScript } from '../../../hooks/useScript';
 
+import './ViewRecipe.css';
+
+// Material UI
+import { styled} from '@mui/material/styles';
+import Grid from "@mui/material/Grid";
+import TextField from "@mui/material/TextField";
+import Typography from '@mui/material/Typography';
+import MenuItem from "@mui/material/MenuItem";
+import Box from "@mui/material/Box"
+import Button from "@mui/material/Button";
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+
+
+
 function ViewRecipe() {
 
     const recipe_ingredients = useSelector(store => store.recipe_ingredients);
@@ -34,7 +50,7 @@ function ViewRecipe() {
 
     const [isEditable, setIsEditable] = useState(false);
     const [recipeName, setRecipeName] = useState(recipe.name);
-    const [imageUrl, setImageUrl] = useState(recipe.image_url);
+    // const [imageUrl, setImageUrl] = useState(recipe.image_url);
     const [recipeDescription, setRecipeDescription] = useState(recipe.description);
     const [recipeInsructions, setRecipeInstructions] = useState(recipe.instructions);
     let ingredients_id = recipe.recipe_ingredients.find(ingredients_id => ingredients_id === Number(recipe.recipe_ingredients.id))
@@ -98,7 +114,7 @@ function ViewRecipe() {
                 name: recipeName,
                 description: recipeDescription,
                 instructions: recipeInsructions,
-                image_url: imageUrl,
+                image_url: recipe.image_url,
                 recipe_ingredients,
             }
         })
@@ -113,100 +129,120 @@ function ViewRecipe() {
 
 
     return (
-        <div>
-            <div>
-                <h1>{recipe.name}</h1>
-                <p>{recipe.description}</p>
-                <br />
-                <h3>Instructions</h3>
-                <p>{recipe.instructions}</p>
-                <br />
-                <h4>Ingredients:</h4>
-                {recipe.recipe_ingredients.map(item => {
-                    return (
-                        <div key={item.id}>
-                            <p>{item.name}: {item.display_amount}</p>
-                            {/* {isIngEditable ?
-                                <div>
-                                    <select
+        <div id='viewcard'>
+            
+            <Card sx={{ maxWidth: 500, minHeight: 500,  }}>
+                <CardContent>
+                    <Typography variant='h3' textAlign='center' >
+                        {recipe.name}
+                    </Typography>
+                    <Typography variant="body1" component="div" textAlign='center'>
+                        {recipe.description}
+                    </Typography>
+                    <Typography variant="h5" component="div" textAlign='center'>
+                        Instructions
+                    </Typography>
+                    <Typography variant="body1" component="div" textAlign='center'>
+                        {recipe.instructions}
+                    </Typography>
+                    <Typography variant="body1" component="div" textAlign='center'>
+                        {recipe.recipe_ingredients.map(item => {
+                            return (
+                                <div key={item.id}>
+                                    <p>{item.name}: {item.display_amount}</p>
+                                </div>
+                            )
+                        })}
+                    </Typography>
+
+                </CardContent>
+            </Card>
+            {isEditable ?
+                <div>
+                    <Grid container alignItems="center" justify="center" direction="column">
+                        <Typography variant='h4'>
+                            Edit Recipe
+                        </Typography>
+                        <Box sx={{ m: 2 }}>
+                            <Grid item>
+                                <form>
+                                    <TextField
+
+                                        label='Name'
+                                        placeholder='Recipe Name'
+                                        value={recipeName}
+                                        onChange={(e) => setRecipeName(e.target.value)}
+                                    />
+                                    {/* <br />
+                                    {useScript('https://widget.cloudinary.com/v2.0/global/all.js')}
+
+                                    File to upload: <Button type="button" onClick={openWidget}>Pick File</Button>
+                                    <br /> */}
+                                    {/* {file_url && <p>Uploaded Image URL: {file_url} <br /><img src={file_url} width={100} /></p>} */}
+                                    <TextField
+                                        label='Description'
+                                        multiline
+                                        rows={5}
+                                        value={recipeDescription} onChange={(e) => setRecipeDescription(e.target.value)}
+                                    />
+                                </form>
+                            </Grid>
+                        </Box>
+                        <Grid item>
+                            <form onSubmit={ingredientHandler}>
+                                <Box paddingBottom={3}>
+                                    <TextField
+                                        id="outlined-select-currency"
+                                        select
+                                        label='Ingredients'
                                         // multiple
                                         value={recipeIngredientId}
                                         onChange={(e) => setRecipeIngredientId(e.target.value)}
                                     >
+                                        <MenuItem></MenuItem>
                                         {ingredients.map(ingredient => (
-                                            <option value={ingredient.id}>{ingredient.name}</option>
+                                            <MenuItem value={ingredient.id}>{ingredient.name}</MenuItem>
                                         ))}
-                                    </select>
-                                    <input placeholder='Recipe Amount' value={recipeAmount} onChange={(e) => setRecipeAmount(e.target.value)} />
-                                    <input placeholder='Recipe Amount' value={displayAmount} onChange={(e) => setDisplayAmount(e.target.value)} />
-                                </div>
-                                : ''
-                            } */}
-                        </div>
-                    )
-                })}
-            </div>
-            <br />
-            <div>
-
-                {isEditable ?
-                    <div>
-                        <form>
-                            <label htmlFor='RecipeName'>Recipe Name</label>
-                            <br />
-                            <input name='RecipeName' placeholder='Recipe Name' value={recipeName} onChange={(e) => setRecipeName(e.target.value)} />
-                            <br />
-                            <label htmlFor='recipeImage'>Image</label>
-                            <br />
-                            {/* <input name='recipeImage' type="file" accept='image/*' value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} /> */} 
-                            {/* {useScript('https://widget.cloudinary.com/v2.0/global/all.js')}
-
-                            File to upload: <button type="button" onClick={openWidget}>Pick File</button>
-                            <br /> */}
-                            <label htmlFor='recipeDescription'>Description</label>
-                            <br />
-                            <textarea rows='4' cols='20' name='recipeDescription' placeholder='Description'
-                                value={recipeDescription} onChange={(e) => setRecipeDescription(e.target.value)}
-                            >
-                            </textarea>
-
-                        </form>
-                        <form onSubmit={ingredientHandler}>
-                            <textarea rows='4' cols='50' placeholder='Instructions'
-                                value={recipeInsructions} onChange={(e) => setRecipeInstructions(e.target.value)}
-                            >
-                            </textarea>
-                            <br />
-                            Ingredient: <select
-                                // multiple
-                                value={recipeIngredientId}
-                                onChange={(e) => setRecipeIngredientId(e.target.value)}
-                            >
-                                {ingredients.map(ingredient => (
-                                    <option key={ingredient.id} value={ingredient.id}>{ingredient.name}</option>
-                                ))}
-                            </select>
-                            <br />
-                            Amount per grams: <input placeholder='Recipe Amount' value={recipeAmount} onChange={(e) => setRecipeAmount(e.target.value)} />
-                            Amount per cooking: <input placeholder='Recipe Amount' value={displayAmount} onChange={(e) => setDisplayAmount(e.target.value)} />
-                            <button type='submit'>Add</button>
-                            <br />
-                        </form>
-                        <br />
+                                    </TextField>
+                                    <TextField
+                                        type='number'
+                                        label='Amount pre gram'
+                                        placeholder='Recipe Amount'
+                                        value={recipeAmount} onChange={(e) => setRecipeAmount(e.target.value)}
+                                    />
+                                    <TextField
+                                        label='Amount per recipe'
+                                        placeholder='Recipe Amount'
+                                        value={displayAmount} onChange={(e) => setDisplayAmount(e.target.value)} />
+                                    <Button type='submit'>Add</Button>
+                                </Box>
+                            </form>
+                        </Grid>
                         {recipe_ingredients.map(r_ingredients => {
                             return (
-                                <p key={r_ingredients.id}>{r_ingredients.ingredientName}</p>
+                                <Grid item>
+                                    <Typography>
+                                        {r_ingredients.ingredientName}: {r_ingredients.display_amount}
+                                    </Typography>
+                                </Grid>
                             )
                         })}
-                        <br />
-                    </div>
-                    : ''}
-                {isEditable ?
-                    <button onClick={saveForms}>Save Recipe</button> :
-                    <button onClick={editForms}>Edit recipe</button>
-                }
-
-            </div>
+                        <Grid item sm={3}>
+                            <TextField
+                                fullWidth
+                                multiline
+                                rows={5}
+                                label='Instructions'
+                                value={recipeInsructions} onChange={(e) => setRecipeInstructions(e.target.value)}
+                            />
+                        </Grid>
+                    </Grid >
+                </div >
+                : ''}
+            {isEditable ?
+                <Button onClick={saveForms}>Save Recipe</Button> :
+                <Button onClick={editForms}>Edit recipe</Button>
+            }
         </div >
     )
 }

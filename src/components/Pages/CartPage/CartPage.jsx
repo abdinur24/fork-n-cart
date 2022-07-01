@@ -62,7 +62,7 @@ function CartPage() {
                 )
             })}
 
-            <h4>Total is: ${total.toFixed(2)}</h4>
+            {total===0 ? '' : <h4>Total is: ${total.toFixed(2)}</h4>}
 
         </div>
     )

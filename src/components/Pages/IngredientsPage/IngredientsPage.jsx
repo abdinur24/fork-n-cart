@@ -1,21 +1,32 @@
-import {useEffect, useState} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import './IngredientsPage.css'
 
-function IngredientsPage(){
+//Material UI
+import TextField from "@mui/material/TextField";
+import Typography from '@mui/material/Typography';
+import MenuItem from "@mui/material/MenuItem";
+import Box from "@mui/material/Box"
+import Button from "@mui/material/Button";
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+
+function IngredientsPage() {
     const [name, setName] = useState('');
     const [price, setPrice] = useState('');
     const [amount, setAmount] = useState(0);
 
     const store = useSelector(store => store.ingredient);
     const dispatch = useDispatch();
-    useEffect(() =>{
-        dispatch({type: 'GET_INGREDIENTS'})
-    },[])
+    useEffect(() => {
+        dispatch({ type: 'GET_INGREDIENTS' })
+    }, [])
 
-    const addHandler=()=>{
+    const addHandler = () => {
         dispatch({
-            type:'ADD_INGREDIENTS',
-            payload:{
+            type: 'ADD_INGREDIENTS',
+            payload: {
                 name: name,
                 price: price,
                 amount: amount
@@ -23,33 +34,54 @@ function IngredientsPage(){
         })
     }
 
-    return(
-        <div>
-            <h1>Ingredient</h1>
-            <form onSubmit={addHandler}>
-                <input value={name} onChange={(e) => setName(e.target.value)}/>
-                <input value={price} onChange={(e) => setPrice(e.target.value)}/>
-                <input value={amount} onChange={(e) => setAmount(e.target.value)}/>
-                <button type='submit'>Add</button>
-            </form>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Price</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {store.map(item => {
-                        return (
-                            <tr key={item.id}>
-                                <td>{item.name}</td>
-                                <td>${item.price}/{item.amount}g</td>
-                            </tr>
-                        )
-                    })}
-                </tbody>
-            </table>
+    return (
+        <div className='ingredientsPage'>
+            <Typography variant='h1'>
+                Ingredients
+            </Typography>
+            <div className='ingredientForm'>
+                <TextField
+                    label='Name'
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                />
+                <TextField
+                    label='Price'
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)}
+                />
+                <TextField
+                    label='Amount'
+                    value={amount}
+                    onChange={(e) => setAmount(e.target.value)}
+                />
+                <Box
+                    sx={{
+                        pt: 1,
+                        display: 'flex',
+                        flexDirection: 'row-reverse',
+                    }}
+                >
+                    <Button
+                        color='success'
+                        variant='contained'
+                        type='submit'
+                        onClick={addHandler}>
+                        Add
+                    </Button>
+                </Box>
+            </div>
+            <div className='ingredientList'>
+
+                {store.map(item => {
+                    return (
+                        <ul key={item.id}>
+                            <li>{item.name}: ${item.price}/{item.amount}g</li>
+                        </ul>
+                    )
+                })}
+
+            </div>
         </div>
     )
 }

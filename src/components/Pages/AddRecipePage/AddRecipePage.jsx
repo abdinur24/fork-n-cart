@@ -150,15 +150,15 @@ function AddRecipePage() {
                         </Box>
                     </form>
                 </Grid>
-                {recipe_ingredients.map(r_ingredients => {
-                    return (
-                        <Grid item>
+                <Box sx={{paddingBottom: 2}} style={{alignContent:'right'}}>
+                    {recipe_ingredients.map(r_ingredients => {
+                        return (
                             <Typography>
                                 {r_ingredients.ingredientName}: {r_ingredients.display_amount}
                             </Typography>
-                        </Grid>
-                    )
-                })}
+                        )
+                    })}
+                </Box>
                 <Grid item sm={3}>
                     <TextField
                         fullWidth

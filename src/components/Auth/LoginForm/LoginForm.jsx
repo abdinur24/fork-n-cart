@@ -2,6 +2,13 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {useSelector} from 'react-redux';
 
+// Material UI
+import TextField from "@mui/material/TextField";
+import Typography from '@mui/material/Typography';
+import MenuItem from "@mui/material/MenuItem";
+import Box from "@mui/material/Box"
+import Button from "@mui/material/Button";
+
 function LoginForm() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -33,31 +40,28 @@ function LoginForm() {
         </h3>
       )}
       <div>
-        <label htmlFor="username">
-          Username:
-          <input
-            type="text"
-            name="username"
+          <TextField
+            label="Username"
+            variant='standard'
             required
             value={username}
             onChange={(event) => setUsername(event.target.value)}
           />
-        </label>
       </div>
       <div>
-        <label htmlFor="password">
-          Password:
-          <input
+          <TextField
             type="password"
-            name="password"
+            label="Password"
+            variant='standard'
             required
             value={password}
             onChange={(event) => setPassword(event.target.value)}
           />
-        </label>
       </div>
       <div>
-        <input className="btn" type="submit" name="submit" value="Log In" />
+        <Button className="btn" type="submit" name="submit" value="Log In">
+          Log In
+        </Button>
       </div>
     </form>
   );

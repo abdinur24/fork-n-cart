@@ -14,7 +14,6 @@ import MenuItem from "@mui/material/MenuItem";
 import Box from "@mui/material/Box"
 import Button from "@mui/material/Button";
 import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 
 
@@ -131,19 +130,27 @@ function ViewRecipe() {
     return (
         <div id='viewcard'>
             
-            <Card sx={{ maxWidth: 500, minHeight: 500,  }}>
+            <Card 
+                sx={{ 
+                    maxWidth: 500, 
+                    minHeight: 500,
+                    marginTop: 3,
+                    marginLeft: 55
+                }}
+                style={{
+                    backgroundColor: '#16608857'
+                }}
+            >
                 <CardContent>
-                    <Typography variant='h3' textAlign='center' >
+                    <Typography variant='h2' textAlign='center' >
                         {recipe.name}
                     </Typography>
-                    <Typography variant="body1" component="div" textAlign='center'>
+                    <img src={recipe.image_url} />
+                    <Typography fontSize={25} component="div" textAlign='center'>
                         {recipe.description}
                     </Typography>
-                    <Typography variant="h5" component="div" textAlign='center'>
-                        Instructions
-                    </Typography>
-                    <Typography variant="body1" component="div" textAlign='center'>
-                        {recipe.instructions}
+                    <Typography fontSize={20} component="div" textAlign='center'>
+                        Ingredients
                     </Typography>
                     <Typography variant="body1" component="div" textAlign='center'>
                         {recipe.recipe_ingredients.map(item => {
@@ -153,6 +160,12 @@ function ViewRecipe() {
                                 </div>
                             )
                         })}
+                    </Typography>
+                    <Typography fontSize={20} component="div" textAlign='center'>
+                        Instructions
+                    </Typography>
+                    <Typography variant="body1" component="div" textAlign='center'>
+                        {recipe.instructions}
                     </Typography>
 
                 </CardContent>
@@ -240,8 +253,8 @@ function ViewRecipe() {
                 </div >
                 : ''}
             {isEditable ?
-                <Button onClick={saveForms}>Save Recipe</Button> :
-                <Button onClick={editForms}>Edit recipe</Button>
+                <Button sx={{marginRight:80, marginLeft:80, marginTop: 2}} onClick={saveForms}>Save Recipe</Button> :
+                <Button sx={{marginRight:80, marginLeft:80, marginTop: 2}} onClick={editForms}>Edit recipe</Button>
             }
         </div >
     )

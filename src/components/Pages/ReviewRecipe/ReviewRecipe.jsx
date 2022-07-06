@@ -1,10 +1,24 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useEffect } from 'react';
+
+// Material UI
+import { styled } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
+import Button from "@mui/material/Button";
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import { blueGrey } from '@mui/material/colors';
+
+const MuiButton = styled(Button)(({ theme }) => ({
+    color: theme.palette.getContrastText(blueGrey[500]),
+    backgroundColor: blueGrey[900],
+}))
+
 function ReviewRecipe() {
 
     const newRecipe = useSelector(store => store.newRecipeReducer);
-    console.log('This is newRecipeReducer',newRecipe)
+    console.log('This is newRecipeReducer', newRecipe)
 
     const ingredients = useSelector(store => store.ingredient);
     const recipe_ingredients = useSelector(store => store.recipe_ingredients);
@@ -23,45 +37,51 @@ function ReviewRecipe() {
     }
     return (
         <div>
-            <h1>Your New Recipe</h1>
-            {/* {store.map(recipe => {
-                return ( */}
-            <div>
-                <h1>Name: {newRecipe.name}</h1>
-                <p>Instructions: {newRecipe.instructions}</p>
-                <h4>Description: {newRecipe.description}</h4>
-                <h4>Ingredients:</h4>
-                {recipe_ingredients.map(r_ingredients => {
-                    console.log('this is new added ingredient', recipe_ingredients);
-                    {if(r_ingredients.recipeIngredientId){
-                    }}
-                    return (
-                        <div>
-                            <p>{r_ingredients.ingredientName}: {r_ingredients.display_amount}</p>
-                            
-                        </div>
-                    )
-                })}
-                {/* {recipe.recipe_ingredients.map(recipe_ingredients => {
-                            console.log('This is recipe ingredients', recipe_ingredients)
-                            let item = ingredients.find(item => item.id === Number(recipe_ingredients.ingredients_id))
-                            console.log(item);
-                            return(
-                                <p>{item.name}</p>
-                            )
-                            // ingredients.map(item => {
-                            //     if (item.id === recipe_ingredients.ingredients_id) {
-                            //         return (
-                            //             <p>{item.name}</p>
-                            //         )
-                            //     }
-                            // })
-
-                        })} */}
-            </div>
-            {/* )
-            })}  */}
-            <button onClick={() => addHandler()}>Add</button>
+            <Card
+                sx={{
+                    maxWidth: 500,
+                    minHeight: 500,
+                    marginTop: 3,
+                    marginLeft: 55
+                }}
+                style={{
+                    backgroundColor: '#16608857',
+                    // alignItems: 'center',
+                    justifyContent: "center", 
+                    display: "flex"
+                }}
+            >
+                <CardContent>
+                    <Typography variant='h2' textAlign='center' >
+                        {newRecipe.name}
+                    </Typography>
+                    <img src={newRecipe.image_url} />
+                    <Typography fontSize={25} component="div" textAlign='center'>
+                        {newRecipe.description}
+                    </Typography>
+                    <Typography fontSize={20} component="div" textAlign='center'>
+                        Ingredients
+                    </Typography>
+                    {recipe_ingredients.map(r_ingredients => {
+                        {
+                            if (r_ingredients.recipeIngredientId) {
+                            }
+                        }
+                        return (
+                            <Typography variant="body1" component="div" textAlign='center'>
+                                {r_ingredients.ingredientName}: {r_ingredients.display_amount}
+                            </Typography>
+                        )
+                    })}
+                    <Typography fontSize={20} component="div" textAlign='center'>
+                        Instructions
+                    </Typography>
+                    <Typography variant="body1" component="div" textAlign='center'>
+                        {newRecipe.instructions}
+                    </Typography>
+                </CardContent>
+            </Card>
+            <MuiButton sx={{ marginRight: 80, marginLeft: 80, marginTop: 2 }} onClick={() => addHandler()}>Add</MuiButton>
 
         </div>
     )

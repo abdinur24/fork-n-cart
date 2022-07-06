@@ -21,7 +21,7 @@ import { blueGrey } from '@mui/material/colors';
 
 const MuiButton = styled(Button)(({ theme }) => ({
     color: theme.palette.getContrastText(blueGrey[500]),
-    backgroundColor: blueGrey[700],
+    backgroundColor: blueGrey[900],
 }))
 
 function RecipeListPage() {
@@ -52,7 +52,7 @@ function RecipeListPage() {
                     return (
                         <Box sx={{ m: 2 }}>
                             <Grid item>
-                                <Card className='Container2' key={recipe.id} sx={{ maxWidth: 345 }} backgroundColor='black'>
+                                <Card id='Container2' key={recipe.id} sx={{ maxWidth: 345 }}>
                                     <CardActionArea onClick={() => history.push(`/recipe/${recipe.id}`)}>
                                         <CardHeader
                                             title={recipe.name}
@@ -81,7 +81,7 @@ function RecipeListPage() {
                                             </MuiButton>
                                         </Box>
                                         <Box pl={9} >
-                                            <Button onClick={() => cartHandler(recipe)}>Add to Cart</Button>
+                                            <Button color='success' onClick={() => cartHandler(recipe)}>Add to Cart</Button>
                                         </Box>
                                     </CardActions>
                                 </Card>
@@ -91,9 +91,9 @@ function RecipeListPage() {
                 })}
             </Grid>
             <br />
-            <Button variant='secondary' onClick={() => { history.push('/addrecipe') }}>
+            <MuiButton variant='secondary' onClick={() => { history.push('/addrecipe') }}>
                 Add New Recipe
-            </Button>
+            </MuiButton>
 
         </Container>
     )

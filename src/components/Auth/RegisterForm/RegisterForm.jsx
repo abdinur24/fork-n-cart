@@ -1,6 +1,13 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+// Material UI
+import TextField from "@mui/material/TextField";
+import Typography from '@mui/material/Typography';
+import MenuItem from "@mui/material/MenuItem";
+import Box from "@mui/material/Box"
+import Button from "@mui/material/Button";
+
 function RegisterForm() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -28,31 +35,28 @@ function RegisterForm() {
         </h3>
       )}
       <div>
-        <label htmlFor="username">
-          Username:
-          <input
-            type="text"
-            name="username"
-            value={username}
-            required
-            onChange={(event) => setUsername(event.target.value)}
-          />
-        </label>
+        <TextField
+          label="Username"
+          value={username}
+          variant='standard'
+          required
+          onChange={(event) => setUsername(event.target.value)}
+        />
       </div>
       <div>
-        <label htmlFor="password">
-          Password:
-          <input
-            type="password"
-            name="password"
-            value={password}
-            required
-            onChange={(event) => setPassword(event.target.value)}
-          />
-        </label>
+        <TextField
+          label='Password'
+          type="password"
+          value={password}
+          variant='standard'
+          required
+          onChange={(event) => setPassword(event.target.value)}
+        />
       </div>
       <div>
-        <input className="btn" type="submit" name="submit" value="Register" />
+        <Button className="btn" type="submit" name="submit" value="Register">
+          Submit
+        </Button> 
       </div>
     </form>
   );
